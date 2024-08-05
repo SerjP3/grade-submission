@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{login-stylesheet.css}" />
+  </head>
+  <body>
+    <div class="topnav">
+      <a th:href="@{/}">Home</a>
+    </div>
+
+    <div class="container">
+      <h2>Login</h2>
+      <form th:action="@{/handleLogin}" method="post">
+        <label for="username" style="color: white">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Your username.."
+        />
+
+        <label for="password" style="color: white">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Your password.."
+        />
+
+        <input type="submit" value="Login" />
+      </form>
+    </div>
+  </body>
+</html>

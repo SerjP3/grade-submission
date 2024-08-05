@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <script th:inline="javascript">
+      function updateClock() {
+        var dateTimeElement = document.getElementById('dateTime');
+        var currentDateTime = new Date(dateTimeElement.textContent);
+        currentDateTime.setSeconds(currentDateTime.getSeconds() + 1);
+        dateTimeElement.textContent = formatDateTime(currentDateTime);
+        setTimeout(updateClock, 1000);
+      }
+
+      function formatDateTime(dateTime) {
+        var year = dateTime.getFullYear();
+        var month = ('0' + (dateTime.getMonth() + 1)).slice(-2);
+        var day = ('0' + dateTime.getDate()).slice(-2);
+        var hours = ('0' + dateTime.getHours()).slice(-2);
+        var minutes = ('0' + dateTime.getMinutes()).slice(-2);
+        var seconds = ('0' + dateTime.getSeconds()).slice(-2);
+        return (
+          year +
+          '-' +
+          month +
+          '-' +
+          day +
+          ' ' +
+          hours +
+          ':' +
+          minutes +
+          ':' +
+          seconds
+        );
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        updateClock();
+      });
+      /*]]>*/
+    </script>
+    <link rel="stylesheet" th:href="@{/home-stylesheet.css}" />
+  </head>
+  <body>
+    <div class="topnav">
+      <a th:href="@{/}">Home</a>
+      <a th:href="@{/form}">Form</a>
+      <a th:href="@{/grades}">Grades</a>
+    </div>
+    <div class="container">
+      <h2>Welcome to Grade Portal!</h2>
+      <h3 id="dateTime" th:text="${dateTime}"></h3>
+      <a class="login-button" th:href="@{/login}">Login</a>
+    </div>
+  </body>
+</html>

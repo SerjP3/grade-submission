@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Grades</title>
+    <link th:href="@{/grades-stylesheet.css}" rel="stylesheet"/>
+    <style>
+        .table-cell {
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+<div class="topnav">
+    <a th:href="@{/}">Home</a>
+    <a th:href="@{/form}">Form</a>
+    <a th:href="@{/grades}">Grades</a>
+</div>
+<div class="alert success" th:if="${status == 'success'}">
+    <strong>You successfully submitted the grade!</strong>
+</div>
+<div class="container">
+    <h2>Grades</h2>
+    <table id="table">
+        <thead>
+        <tr>
+            <th>Student</th>
+            <th>Email</th>
+            <th>Course</th>
+            <th>Grade</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="studentGrade : ${studentGrades}">
+            <td th:text="${studentGrade.studentName}"></td>
+            <td th:text="${studentGrade.studentEmail}"></td>
+            <td>
+                <ul>
+                    <li th:each="courseGrade, iterStat : ${studentGrade.courseGrades}">
+                        <a th:href="@{/addGradeToCourse(studentId=${studentGrade.studentId}, courseId=${courseGrade.courseId}, gradeId=${courseGrade.gradeId})}"
+                           th:text="${courseGrade.courseName}" class="table-cell"></a>
+                    </li>
+                </ul>
+            </td>
+            <td>
+                <div th:each="courseGrade : ${studentGrade.courseGrades}">
+                    <span th:each="score, iterStat : ${courseGrade.scores}">
+                        <a th:href="@{/changeGrade(studentId=${studentGrade.studentId},
+                           courseId=${courseGrade.courseId}, gradeId=${courseGrade.gradeId}, score=${score})}"
+                           th:text="${score}"></a><span th:if="${!iterStat.last}">, </span>
+                    </span>
+                </div>
+            </td>
+            <td class="table-cell">
+                <form th:action="@{/addGrade}" method="GET">
+                    <input type="hidden" name="studentId" th:value="${studentGrade.studentId}"/>
+                    <input type="submit" value="Add grade" class="update"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
